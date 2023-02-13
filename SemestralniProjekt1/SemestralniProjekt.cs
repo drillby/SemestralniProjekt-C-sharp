@@ -46,18 +46,29 @@ namespace SemestralniProjekt1
         }
 
         // funkce pro zjištění zda budeme načítat čísla z terminálu, nebo ze souboru
-        static int getReadType() {
-            string setUp = "";
+        // input == true -> výběr způsobu zadání čísla
+        // input == false -> výběr způsobu vypsání prvočísel
+        static int getIOType(bool input) {
+            // předinicializace, abychom se vyhnuli inicializaci proměnné pokaždé když uživatel zadá chybný vstup
+            string setUp;
             // chceme aby uživatel zadal jenom "1", nebo "2"
             bool podminka = setUp != "1" || setUp != "2";
             
             // dokud uživatel nezadá správný vstup
             do
             {
-                Console.WriteLine("Chcete zadat číslo ručně, nebo načíst ze souboru?");
-                Console.WriteLine("1. Načíst z terminálu");
-                Console.WriteLine("2. Načíst ze souboru");
-                setUp = Console.ReadLine();
+                if (input) {
+                    Console.WriteLine("Chcete zadat číslo ručně, nebo načíst ze souboru?");
+                    Console.WriteLine("1. Načíst z terminálu");
+                    Console.WriteLine("2. Načíst ze souboru");
+                    setUp = Console.ReadLine();
+                }
+                else {
+                    Console.WriteLine("Chcete vypsat čísla do konzole, nebo zapsat do souboru?");
+                    Console.WriteLine("1. Vypsat do konzole");
+                    Console.WriteLine("2. Zapsat do souboru");
+                    setUp = Console.ReadLine();
+                }
                 if (!podminka)
                 {
                     Console.WriteLine("Španý vstup, zkuste to znovu...");
@@ -94,27 +105,40 @@ namespace SemestralniProjekt1
 
         static void Main(string[] args)
         {
-            int inputType = getReadType();
+            int inputType = getIOType(true);
 
-            if (inputType == 1)
+            if (inputType)
             {
-                int number = getNumberFromTerminal();
+                int outputType = getIOType(false);
                 
-                // do souboru prvocisla.txt se budou zapisovat prvnočísla
-                string path = "./prvocisla.txt";
+                int number = getNumberFromTerminal();
 
-                // nemusíme kontrolovat zda soubor existuje, StreamWriter automaticky vytvoří soubor pokud neexistuje
-                // používám using, abych se nemusel starat o zavírání souboru, using ho zavře automaticky
-                using (StreamWriter sw = File.AppendText(path))
-                {
-                    // každá hranice se vypíše na jeden řádek
-                    sw.WriteLine(number.ToString() + " -> ");
-                    foreach (int i in ErathosenovoSito(number))
-                    {
-                        // každé prvočíslo se vypíše za hranici, na ten samý řádek
-                        sw.Write(i.ToString(), ", ")
+                // pokud outputType == 1 vypíšeme prvočísla do konzole
+                if(outputType) {
+                    Console.WriteLine("Prvočísla do hranice " + number.ToString() + " jsou:");
+                    foreach(int i in ErathosenovoSito(number)) {
+                        Console.Write(i.ToString() + ", ");
                     }
-                    // příklad zápisu: 10 -> 2, 3, 5, 7
+                }
+
+                // v opačném případě zapíšeme do souboru
+                else {
+                    // do souboru prvocisla.txt se budou zapisovat prvnočísla
+                    string path = "./prvocisla.txt";
+
+                    // nemusíme kontrolovat zda soubor existuje, StreamWriter automaticky vytvoří soubor pokud neexistuje
+                    // používám using, abych se nemusel starat o zavírání souboru, using ho zavře automaticky
+                    using (StreamWriter sw = File.AppendText(path))
+                    {
+                        // každá hranice se vypíše na jeden řádek
+                        sw.WriteLine(number.ToString() + " -> ");
+                        foreach (int i in ErathosenovoSito(number))
+                        {
+                            // každé prvočíslo se vypíše za hranici, na ten samý řádek
+                            sw.Write(i.ToString(), ", ")
+                        }
+                        // příklad zápisu: 10 -> 2, 3, 5, 7
+                    }
                 }
 
                 Console.ReadLine();
