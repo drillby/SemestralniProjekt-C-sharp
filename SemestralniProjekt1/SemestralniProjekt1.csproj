@@ -68,6 +68,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErathosenovoSito.cs" />
+    <Compile Include="IOHandler.cs" />
     <Compile Include="SemestralniProjekt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
