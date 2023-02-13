@@ -1,5 +1,4 @@
-﻿using CsvHelper;
-using System;
+﻿using System;
 using System.Globalization;
 using System.IO;
 
@@ -100,12 +99,24 @@ namespace SemestralniProjekt1
             if (inputType == 1)
             {
                 int number = getNumberFromTerminal();
-                int id = 0;
-                foreach (int i in ErathosenovoSito(number))
+                
+                // do souboru prvocisla.txt se budou zapisovat prvnočísla
+                string path = "./prvocisla.txt";
+
+                // nemusíme kontrolovat zda soubor existuje, StreamWriter automaticky vytvoří soubor pokud neexistuje
+                // používám using, abych se nemusel starat o zavírání souboru, using ho zavře automaticky
+                using (StreamWriter sw = File.AppendText(path))
                 {
-                    Prvocislo cislo = new Prvocislo { Id = id, Value= i};
-                    id++;
+                    // každá hranice se vypíše na jeden řádek
+                    sw.WriteLine(number.ToString() + " -> ");
+                    foreach (int i in ErathosenovoSito(number))
+                    {
+                        // každé prvočíslo se vypíše za hranici, na ten samý řádek
+                        sw.Write(i.ToString(), ", ")
+                    }
+                    // příklad zápisu: 10 -> 2, 3, 5, 7
                 }
+
                 Console.ReadLine();
             }
         }
