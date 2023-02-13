@@ -60,13 +60,14 @@ namespace SemestralniProjekt1
                 if (input) {
                     Console.WriteLine("Chcete zadat číslo ručně, nebo načíst ze souboru?");
                     Console.WriteLine("1. Načíst z terminálu");
-                    Console.WriteLine("2. Načíst ze souboru");
+                    Console.WriteLine("2. Načíst ze souboru (načte se ze souboru input.txt)");
+                    Console.WriteLine("pozn.: Při načtení z tefrminálu lze zadat pouze jedno číslo, při načtení ze souboru je počet čísel neomezený (každé číslo musí být na samostatném řádku)");
                     setUp = Console.ReadLine();
                 }
                 else {
                     Console.WriteLine("Chcete vypsat čísla do konzole, nebo zapsat do souboru?");
                     Console.WriteLine("1. Vypsat do konzole");
-                    Console.WriteLine("2. Zapsat do souboru");
+                    Console.WriteLine("2. Zapsat do souboru (uloží se do souboru prvocisla.txt)");
                     setUp = Console.ReadLine();
                 }
                 if (!podminka)
@@ -103,17 +104,8 @@ namespace SemestralniProjekt1
             return int.Parse(number);
         }
 
-        static void Main(string[] args)
-        {
-            int inputType = getIOType(true);
-
-            if (inputType)
-            {
-                int outputType = getIOType(false);
-                
-                int number = getNumberFromTerminal();
-
-                // pokud outputType == 1 vypíšeme prvočísla do konzole
+        static void outputPrimeNumbers(int outputType) {
+            // pokud outputType == 1 vypíšeme prvočísla do konzole
                 if(outputType) {
                     Console.WriteLine("Prvočísla do hranice " + number.ToString() + " jsou:");
                     foreach(int i in ErathosenovoSito(number)) {
@@ -135,13 +127,50 @@ namespace SemestralniProjekt1
                         foreach (int i in ErathosenovoSito(number))
                         {
                             // každé prvočíslo se vypíše za hranici, na ten samý řádek
-                            sw.Write(i.ToString(), ", ")
+                            sw.Write(i.ToString(), ", ");
                         }
                         // příklad zápisu: 10 -> 2, 3, 5, 7
                     }
                 }
+                return;
+        }
 
+        static void Main(string[] args)
+        {
+            int inputType = getIOType(true);
+
+            if (inputType)
+            {
+                int outputType = getIOType(false);
+                
+                int number = getNumberFromTerminal();
+
+                outputPrimeNumbers(outputType);
                 Console.ReadLine();
+            }
+            else {
+                // kontrola zda soubor existuje
+                string input_numbers = "./input.txt";
+                if(!File.Exists(input_numbers)) {
+                    Console.WriteLine("Soubor input neexistuje, konec programu");
+                    Console.ReadLine();
+                    Environment.Exit(0);
+                }
+                int outputType = getIOType(false);
+                
+                bool succes;
+                // pro každý řádek zvalidujeme zda je na řádku číslo, pokud validace neprojde řádek se přeskočí
+                foreach (string line in File.ReadLines(input_numbers))
+                {  
+                    succes = int.TryParse(number, out int ignore);
+                    // pokud řádek nelze předělat na int, překočíme iteraci
+                    if(!succes) {
+                        Console.WriteLine("Číslo nenalezeno...");
+                        continue;
+                    }
+                    Console.WriteLine("Nalezeno číslo " + line);
+                    outputPrimeNumbers(outputType);
+                }
             }
         }
     }
