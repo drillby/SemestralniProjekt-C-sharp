@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace SemestralniProjekt
 {
@@ -62,11 +61,11 @@ namespace SemestralniProjekt
 
                 // vybrání možnosti opakování chodu programu
                 Console.WriteLine("Chcete program ukončit, nebo spustit znovu?");
-                Console.WriteLine("'yes' pro ukončení");
+                Console.WriteLine("'pokracovat' pro pokračování");
                 Console.WriteLine("Vše ostatní pro pokračování");
                 opakovat = Console.ReadLine();
                 // tento regex umnožňuje zapsat všechny kombinace slova "yes" bez ohledu na malá a velká písmena
-            } while (!Regex.IsMatch(opakovat, @"[\W * ((? i)yes(?-i))\W *]"));
+            } while (opakovat == "pokracovat");
         }
     }
 }

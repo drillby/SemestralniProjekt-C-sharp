@@ -16,10 +16,10 @@ namespace SemestralniProjekt
 
             // Nastavení pole, přes které se prvočísla budou "přesívat"
             bool[] sito = new bool[max + 1];
-            for (int i = 0; i <= max; i++)
+            for (int i = 0; i < max; i++)
                 sito[i] = true;
 
-            for (int p = 2; p * p < max; p++)
+            for (int p = 2; p * p <= max; p++)
             {
                 // pokud nedošlo ke změně, pak sito[p] je prvočíslo
                 if (sito[p])
