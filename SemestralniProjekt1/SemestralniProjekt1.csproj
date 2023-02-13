@@ -70,7 +70,7 @@
   <ItemGroup>
     <Compile Include="ErathosenovoSito.cs" />
     <Compile Include="IOHandler.cs" />
-    <Compile Include="SemestralniProjekt.cs" />
+    <Compile Include="App.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

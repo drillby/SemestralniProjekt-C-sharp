@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace SemestralniProjekt
 {
 
-    internal class SemestralniProjekt
+    internal class App
     {
 
 
