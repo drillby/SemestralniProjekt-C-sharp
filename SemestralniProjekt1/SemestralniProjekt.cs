@@ -8,8 +8,8 @@ namespace SemestralniProjekt1
 
     internal class SemestralniProjekt
     {
-        static IEnumerable<int> ErathosenovoSito(int max)
         // Erathosenovo síto hledá prvočísla do zadané horní hranice
+        static IEnumerable<int> ErathosenovoSito(int max)
         {
             // neexistuje nižší prvočíslo než 2
             if (max < 2)
@@ -58,7 +58,7 @@ namespace SemestralniProjekt1
                     Console.WriteLine("Chcete zadat číslo ručně, nebo načíst ze souboru?");
                     Console.WriteLine("1. Načíst z terminálu");
                     Console.WriteLine("2. Načíst ze souboru (načte se ze souboru input.txt)");
-                    Console.WriteLine("pozn.: Při načtení z tefrminálu lze zadat pouze jedno číslo, při načtení ze souboru je počet čísel neomezený (každé číslo musí být na samostatném řádku)");
+                    Console.WriteLine("pozn.: Při načtení z terminálu lze zadat pouze jedno číslo, při načtení ze souboru je počet čísel neomezený (každé číslo musí být na samostatném řádku)");
                     setUp = Console.ReadLine();
                 }
                 else
@@ -68,6 +68,8 @@ namespace SemestralniProjekt1
                     Console.WriteLine("2. Zapsat do souboru (uloží se do souboru prvocisla.txt)");
                     setUp = Console.ReadLine();
                 }
+
+                // pokud uživatelký vstup neodpovídá podmínce vypíše se chybová hláška
                 if (!Regex.IsMatch(setUp, @"[1,2]"))
                 {
                     Console.WriteLine("Španý vstup, zkuste to znovu...");
@@ -108,17 +110,22 @@ namespace SemestralniProjekt1
             } while (!succes);
             return -1;
         }
+
+        // funkce pro vypsání prvočísel do terminálu
         static void OutputPrimeNumbersToTerminal(int number)
         {
             Console.WriteLine("Prvočísla do hranice " + number.ToString() + " jsou:");
+            // pro každé prvočíslo
             foreach (int i in ErathosenovoSito(number))
             {
+                ErathosenovoSito(number);
                 Console.Write(i.ToString() + ", ");
             }
             Console.WriteLine(Environment.NewLine);
             return;
         }
 
+        // funkce pro vypisování prvočísel do souboru
         static void OutputPrimeNumbersToFile(string fileName, int number)
         {
             // nemusíme kontrolovat zda soubor existuje, StreamWriter automaticky vytvoří soubor pokud neexistuje
@@ -200,6 +207,8 @@ namespace SemestralniProjekt1
 
                     bool succes;
                     // pro každý řádek zvalidujeme zda je na řádku číslo, pokud validace neprojde řádek se přeskočí
+                    // obdobně jako u samotné funkce ErathosenovoSito je zde zvolena metoda čtení dat pomocí Generátoru,
+                    // tento důvod byl zvolen, protože nevíme jak velký soubor nám uživatel předá ke zpracování
                     foreach (string line in File.ReadLines(Directory.GetCurrentDirectory() + input_numbers))
                     {
                         succes = int.TryParse(line, out _);
@@ -214,8 +223,8 @@ namespace SemestralniProjekt1
                     }
                 }
 
-                // vybrání možnosti opakování
-                Console.WriteLine("Chcete program spustit znovu, nebo ukočit?");
+                // vybrání možnosti opakování chodu programu
+                Console.WriteLine("Chcete program ukončit, nebo spustit znovu?");
                 Console.WriteLine("'yes' pro ukončení");
                 Console.WriteLine("Vše ostatní pro pokračování");
                 opakovat = Console.ReadLine();
