@@ -16,7 +16,6 @@ namespace SemestralniProjekt1
     {
         static System.Collections.Generic.IEnumerable<int> ErathosenovoSito(int max)
         {
-
             // neexistuje nižší prvočíslo než 2
             if(max < 2)
             {
@@ -27,7 +26,6 @@ namespace SemestralniProjekt1
             bool[] sito = new bool[max + 1];
             for (int i = 0; i <= max; i++)
                 sito[i] = true;
-
 
             for (int p = 2; p * p <= Math.Sqrt(max); p++)
             {
@@ -46,19 +44,15 @@ namespace SemestralniProjekt1
                     // Iterátor z důvodu paměťové nenáročnosti, nevíme jak velkou hranici uživatel zadá
                     yield return i;
             }
-
         }
 
-
-
-
-        static void Main(string[] args)
-        {
-            // původní nastavení
+        // funkce pro zjištění zda budeme načítat čísla z terminálu, nebo ze souboru
+        static int getReadType() {
             string setUp = "";
+            // chceme aby uživatel zadal jenom "1", nebo "2"
             bool podminka = setUp != "1" || setUp != "2";
             
-            // dokud uživatel nezadá správný vstup "1", nebo "2"
+            // dokud uživatel nezadá správný vstup
             do
             {
                 Console.WriteLine("Chcete zadat číslo ručně, nebo načíst ze souboru?");
@@ -74,24 +68,40 @@ namespace SemestralniProjekt1
                 }
             } while (!podminka);
 
-            // pokud vybral 
-            if (setUp == "1")
-            {
-                bool succes;
-                do { 
-                    Console.WriteLine("Napište číslo, které chcete rozložit na prvočísla:");
-                    setUp= Console.ReadLine();
-                    succes = int.TryParse(setUp, out int ignore);
-                    if (!succes)
-                    {
-                        Console.WriteLine("Vstup se nepovedlo převést na celé číslo, zkuste to znovu...");
-                        Console.WriteLine("Stiskněte Enter pro nový pokus");
-                        Console.Clear();
-                    }
-                } while(!succes);
+            return int.Parse(setUp);
+        }
 
+        // funkce pro přečtení čísla z konzole
+        static int getNumberFromTerminal() {
+            bool succes;
+
+            // dokud uživatel nazadá číslo
+            do { 
+                Console.WriteLine("Napište číslo, které chcete rozložit na prvočísla:");
+                number= Console.ReadLine();
+
+                // validátor, zda uživatel zadal číslo
+                succes = int.TryParse(number, out int ignore);
+                if (!succes)
+                {
+                    Console.WriteLine("Vstup se nepovedlo převést na celé číslo, zkuste to znovu...");
+                    Console.WriteLine("Stiskněte Enter pro nový pokus");
+                    Console.Clear();
+                }
+            } while(!succes);
+
+            return int.Parse(number);
+        }
+
+        static void Main(string[] args)
+        {
+            int inputType = getReadType();
+
+            if (inputType == 1)
+            {
+                int number = getNumberFromTerminal();
                 int id = 0;
-                foreach (int i in ErathosenovoSito(int.Parse(setUp)))
+                foreach (int i in ErathosenovoSito(number))
                 {
                     Prvocislo cislo = new Prvocislo { Id = id, Value= i};
                     id++;
