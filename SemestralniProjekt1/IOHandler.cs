@@ -7,6 +7,8 @@ namespace SemestralniProjekt
 {
 
     public class IOHandler
+    // IOHandler je vytvořen poměrně univerzálně
+    // Po pár úpravách textových odpovědí terminálu lze použít na jakýkoliv algoritmus, který funguje na bázi generátoru, např. Hornerovo schéma
     {
         // funkce pro zjištění zda budeme načítat čísla z terminálu, nebo ze souboru
         // input == true -> výběr způsobu zadání čísla

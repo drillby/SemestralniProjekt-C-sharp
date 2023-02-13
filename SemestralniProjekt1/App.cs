@@ -12,7 +12,7 @@ namespace SemestralniProjekt
         {
             Console.Clear();
             string opakovat;
-            // možnost opakování programu
+            // do-while pro možnost opakování programu
             do
             {
                 //int inputType = GetIOType(true);
@@ -43,7 +43,7 @@ namespace SemestralniProjekt
 
                     bool succes;
                     // pro každý řádek zvalidujeme zda je na řádku číslo, pokud validace neprojde řádek se přeskočí
-                    // obdobně jako u samotné funkce ErathosenovoSito je zde zvolena metoda čtení dat pomocí Generátoru,
+                    // obdobně jako u samotné funkce ErathosenovoSito.ESito je zde zvolena metoda čtení dat pomocí Generátoru,
                     // tento důvod byl zvolen, protože nevíme jak velký soubor nám uživatel předá ke zpracování
                     foreach (string line in File.ReadLines(Directory.GetCurrentDirectory() + input_numbers))
                     {
@@ -64,7 +64,7 @@ namespace SemestralniProjekt
                 Console.WriteLine("'pokracovat' pro pokračování");
                 Console.WriteLine("Vše ostatní pro pokračování");
                 opakovat = Console.ReadLine();
-                // tento regex umnožňuje zapsat všechny kombinace slova "yes" bez ohledu na malá a velká písmena
+                // jednoduché porovnání hodnoty stringu, spíš by se sem hodil regex aby input nebyl case sensitive
             } while (opakovat == "pokracovat");
         }
     }
