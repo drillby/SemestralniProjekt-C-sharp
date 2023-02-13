@@ -5,12 +5,6 @@ using System.IO;
 namespace SemestralniProjekt1
 {
 
-    public class Prvocislo
-    {
-        public int Id { get; set; }
-        public int Value { get; set; }
-    }
-
     internal class SemestralniProjekt
     {
         static System.Collections.Generic.IEnumerable<int> ErathosenovoSito(int max)
@@ -48,9 +42,9 @@ namespace SemestralniProjekt1
         // funkce pro zjištění zda budeme načítat čísla z terminálu, nebo ze souboru
         // input == true -> výběr způsobu zadání čísla
         // input == false -> výběr způsobu vypsání prvočísel
-        static int getIOType(bool input) {
+        static int GetIOType(bool input) {
             // předinicializace, abychom se vyhnuli inicializaci proměnné pokaždé když uživatel zadá chybný vstup
-            string setUp;
+            string setUp = "";
             // chceme aby uživatel zadal jenom "1", nebo "2"
             bool podminka = setUp != "1" || setUp != "2";
             
@@ -83,13 +77,14 @@ namespace SemestralniProjekt1
         }
 
         // funkce pro přečtení čísla z konzole
-        static int getNumberFromTerminal() {
+        static int GetNumberFromTerminal() 
+        {
             bool succes;
 
             // dokud uživatel nazadá číslo
             do { 
                 Console.WriteLine("Napište číslo, které chcete rozložit na prvočísla:");
-                number= Console.ReadLine();
+                string number = Console.ReadLine();
 
                 // validátor, zda uživatel zadal číslo
                 succes = int.TryParse(number, out int ignore);
@@ -99,14 +94,17 @@ namespace SemestralniProjekt1
                     Console.WriteLine("Stiskněte Enter pro nový pokus");
                     Console.Clear();
                 }
+                else
+                {
+                    return int.Parse(number);
+                }
             } while(!succes);
-
-            return int.Parse(number);
+            return -1;
         }
 
-        static void outputPrimeNumbers(int outputType) {
+        static void OutputPrimeNumbers(int outputType, int number) {
             // pokud outputType == 1 vypíšeme prvočísla do konzole
-                if(outputType) {
+                if(outputType == 1) {
                     Console.WriteLine("Prvočísla do hranice " + number.ToString() + " jsou:");
                     foreach(int i in ErathosenovoSito(number)) {
                         Console.Write(i.ToString() + ", ");
@@ -137,15 +135,15 @@ namespace SemestralniProjekt1
 
         static void Main(string[] args)
         {
-            int inputType = getIOType(true);
+            int inputType = GetIOType(true);
 
-            if (inputType)
+            if (inputType == 1)
             {
-                int outputType = getIOType(false);
+                int outputType = GetIOType(false);
                 
-                int number = getNumberFromTerminal();
+                int number = GetNumberFromTerminal();
 
-                outputPrimeNumbers(outputType);
+                OutputPrimeNumbers(outputType, number);
                 Console.ReadLine();
             }
             else {
@@ -156,20 +154,20 @@ namespace SemestralniProjekt1
                     Console.ReadLine();
                     Environment.Exit(0);
                 }
-                int outputType = getIOType(false);
+                int outputType = GetIOType(false);
                 
                 bool succes;
                 // pro každý řádek zvalidujeme zda je na řádku číslo, pokud validace neprojde řádek se přeskočí
                 foreach (string line in File.ReadLines(input_numbers))
                 {  
-                    succes = int.TryParse(number, out int ignore);
+                    succes = int.TryParse(line, out int ignore);
                     // pokud řádek nelze předělat na int, překočíme iteraci
                     if(!succes) {
                         Console.WriteLine("Číslo nenalezeno...");
                         continue;
                     }
                     Console.WriteLine("Nalezeno číslo " + line);
-                    outputPrimeNumbers(outputType);
+                    OutputPrimeNumbers(outputType, int.Parse(line));
                 }
             }
         }
