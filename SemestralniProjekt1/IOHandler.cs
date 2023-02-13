@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace SemestralniProjekt1
+namespace SemestralniProjekt
 {
 
     public class IOHandler

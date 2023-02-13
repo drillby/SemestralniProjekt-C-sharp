@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SemestralniProjekt1
+namespace SemestralniProjekt
 {
     internal class ErathosenovoSito
     {
