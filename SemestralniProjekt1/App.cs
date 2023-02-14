@@ -3,11 +3,9 @@ using System.IO;
 
 namespace SemestralniProjekt
 {
-
+    // hlavní aplikace
     internal class App
     {
-
-
         static void Main(string[] args)
         {
             Console.Clear();
@@ -15,13 +13,13 @@ namespace SemestralniProjekt
             // do-while pro možnost opakování programu
             do
             {
-                //int inputType = GetIOType(true);
                 int inputType = IOHandler.GetIOType(true);
                 // pokud inputType == 1 -> zadání z terminálu
                 if (inputType == 1)
                 {
                     int outputType = IOHandler.GetIOType(false);
 
+                    // pozor na int overflow
                     int number = IOHandler.GetNumberFromTerminal();
 
                     IOHandler.OutputPrimeNumbers<int>(outputType, number, ErathosenovoSito.ESito);
@@ -31,6 +29,7 @@ namespace SemestralniProjekt
                 {
 
                     // kontrola zda soubor existuje
+                    // musíme si dát pozor na spoštění tohoto programu na UNIXových platformách, adresáře se oddělují / a ne \
                     string input_numbers = "\\input.txt";
                     if (!File.Exists(Directory.GetCurrentDirectory() + input_numbers))
                     {
@@ -47,6 +46,7 @@ namespace SemestralniProjekt
                     // tento důvod byl zvolen, protože nevíme jak velký soubor nám uživatel předá ke zpracování
                     foreach (string line in File.ReadLines(Directory.GetCurrentDirectory() + input_numbers))
                     {
+                        // pozor na int overflow
                         succes = int.TryParse(line, out _);
                         // pokud string na řádku nelze přetypovat na int, překočíme iteraci
                         if (!succes)

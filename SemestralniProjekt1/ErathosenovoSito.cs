@@ -15,6 +15,8 @@ namespace SemestralniProjekt
             }
 
             // Nastavení pole, přes které se prvočísla budou "přesívat"
+            // toto pole je místo které může vést k problémům s operační pamětí,
+            // i přes to, že v poli jsou bool hodnoty při velkém poli může být zabraná paměť znatelná
             bool[] sito = new bool[max + 1];
             for (int i = 0; i < max; i++)
                 sito[i] = true;

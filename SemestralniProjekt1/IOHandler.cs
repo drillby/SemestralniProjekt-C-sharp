@@ -5,10 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace SemestralniProjekt
 {
-
-    public class IOHandler
     // IOHandler je vytvořen poměrně univerzálně
     // Po pár úpravách textových odpovědí terminálu lze použít na jakýkoliv algoritmus, který funguje na bázi generátoru, např. Hornerovo schéma
+    public class IOHandler
     {
         // funkce pro zjištění zda budeme načítat čísla z terminálu, nebo ze souboru
         // input == true -> výběr způsobu zadání čísla
@@ -25,7 +24,7 @@ namespace SemestralniProjekt
                 {
                     Console.WriteLine("Chcete zadat číslo ručně, nebo načíst ze souboru?");
                     Console.WriteLine("1. Načíst z terminálu");
-                    Console.WriteLine("2. Načíst ze souboru (načte se ze souboru input.txt)");
+                    Console.WriteLine("2. Načíst ze souboru (input.txt)");
                     Console.WriteLine("pozn.: Při načtení z terminálu lze zadat pouze jedno číslo, při načtení ze souboru je počet čísel neomezený (každé číslo musí být na samostatném řádku)");
                     setUp = Console.ReadLine();
                 }
@@ -33,7 +32,7 @@ namespace SemestralniProjekt
                 {
                     Console.WriteLine("Chcete vypsat čísla do konzole, nebo zapsat do souboru?");
                     Console.WriteLine("1. Vypsat do konzole");
-                    Console.WriteLine("2. Zapsat do souboru (uloží se do souboru prvocisla.txt)");
+                    Console.WriteLine("2. Zapsat do souboru (uloží se do prvocisla.txt)");
                     setUp = Console.ReadLine();
                 }
 
@@ -67,6 +66,7 @@ namespace SemestralniProjekt
                 {
                     Console.WriteLine("Vstup se nepovedlo převést na celé číslo, zkuste to znovu...");
                     Console.WriteLine("Stiskněte Enter pro nový pokus");
+                    Console.ReadLine();
                     Console.Clear();
                 }
                 else
@@ -80,7 +80,7 @@ namespace SemestralniProjekt
         // funkce pro vypsání prvočísel do terminálu
         public static void OutputPrimeNumbersToTerminal<T>(int number, Func<int, IEnumerable<int>> Function)
         {
-            Console.WriteLine("Prvočísla do hranice " + number.ToString() + " jsou:");
+            Console.WriteLine("Prvočísla do hranice {0} jsou:", number.ToString());
             // pro každé prvočíslo
             foreach (int i in Function(number))
             {
@@ -99,7 +99,7 @@ namespace SemestralniProjekt
             using (StreamWriter sw = File.AppendText(Directory.GetCurrentDirectory() + fileName))
             {
                 // každá hranice se vypíše na jeden řádek
-                sw.Write(number.ToString() + " -> ");
+                sw.Write("{0} -> ", number.ToString());
                 foreach (int i in Function(number))
                 {
                     // každé prvočíslo se vypíše za hranici, na ten samý řádek
@@ -108,7 +108,7 @@ namespace SemestralniProjekt
                 // příklad zápisu: 10 -> 2, 3, 5, 7
                 sw.Write(Environment.NewLine);
             }
-            Console.WriteLine("Prvočísla jsou zapsaná zde: {0}/{1}", Directory.GetCurrentDirectory(), fileName);
+            Console.WriteLine("Prvočísla jsou zapsaná zde: {0}{1}", Directory.GetCurrentDirectory(), fileName);
             return;
         }
         public static void OutputPrimeNumbers<T>(int outputType, int number, Func<int, IEnumerable<int>> Function)
@@ -132,6 +132,7 @@ namespace SemestralniProjekt
             {
                 // fileName je relativní cesta z aktivního adresáře tj. adresář ze kterého byl program spuštěn
                 // -> soubor prvocisla.txt se vytvoří "vedle" tohoto programu
+                // musíme si dát pozor na spoštění tohoto programu na UNIXových platformách, adresáře se oddělují / a ne \
                 string fileName = "\\prvocisla.txt";
                 OutputPrimeNumbersToFile<T>(fileName, number, Function);
             }
