@@ -41,6 +41,7 @@ namespace SemestralniProjekt
                 // pozor na int overflow
                 succes = int.TryParse(line, out _);
                 // pokud string na řádku nelze přetypovat na int, překočíme iteraci
+                // ? if (!int.TryParse(line, out _))
                 if (!succes)
                 {
                     Console.WriteLine("Text {0} nelze předělat na celé číslo...", line);
@@ -86,6 +87,7 @@ namespace SemestralniProjekt
                 }
             
             pokracovat = EndApp();
+            // } while (EndApp());
             } while (pokracovat);
         }
     }
