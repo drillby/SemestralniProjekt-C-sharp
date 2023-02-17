@@ -96,7 +96,7 @@ namespace SemestralniProjekt
             // nemusíme kontrolovat zda soubor existuje, StreamWriter automaticky vytvoří soubor pokud neexistuje
             // používám using, abych se nemusel starat o zavírání souboru, using ho zavře automaticky
             Console.WriteLine("Začínám zápis");
-            using (StreamWriter sw = File.AppendText(Directory.GetCurrentDirectory() + fileName))
+            using (StreamWriter sw = File.AppendText(Path.Combine(Directory.GetCurrentDirectory(), fileName)))
             {
                 // každá hranice se vypíše na jeden řádek
                 sw.Write("{0} -> ", number.ToString());
@@ -133,7 +133,7 @@ namespace SemestralniProjekt
                 // fileName je relativní cesta z aktivního adresáře tj. adresář ze kterého byl program spuštěn
                 // -> soubor prvocisla.txt se vytvoří "vedle" tohoto programu
                 // musíme si dát pozor na spoštění tohoto programu na UNIXových platformách, adresáře se oddělují / a ne \
-                string fileName = "\\prvocisla.txt";
+                string fileName = "prvocisla.txt";
                 OutputPrimeNumbersToFile<T>(fileName, number, Function);
             }
             return;
