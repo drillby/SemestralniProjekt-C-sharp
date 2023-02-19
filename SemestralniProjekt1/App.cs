@@ -14,9 +14,9 @@ namespace SemestralniProjekt
             bool outputType = IOHandler.GetIOType(false);
 
             // pozor na int overflow
-            int number = IOHandler.GetNumberFromTerminal();
+            uint number = IOHandler.GetNumberFromTerminal();
 
-            IOHandler.OutputPrimeNumbers<int>(outputType, number, ErathosenovoSito.ESito);
+            IOHandler.OutputPrimeNumbers<uint>(outputType, number, ErathosenovoSito.ESito);
         }
 
         /// <summary>s
@@ -50,7 +50,7 @@ namespace SemestralniProjekt
                     continue;
                 }
                 Console.WriteLine("Nalezeno číslo " + line);
-                IOHandler.OutputPrimeNumbers<int>(outputType, int.Parse(line), ErathosenovoSito.ESito);
+                IOHandler.OutputPrimeNumbers<int>(outputType, uint.Parse(line), ErathosenovoSito.ESito);
             }
         }
 

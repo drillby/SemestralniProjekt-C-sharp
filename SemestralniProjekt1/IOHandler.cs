@@ -65,7 +65,7 @@ namespace SemestralniProjekt
         /// <returns>
         /// Číslo zadané uživatelem
         /// </returns>
-        public static int GetNumberFromTerminal()
+        public static uint GetNumberFromTerminal()
         {
             bool succes;
 
@@ -86,10 +86,10 @@ namespace SemestralniProjekt
                 }
                 else
                 {
-                    return int.Parse(number);
+                    return uint.Parse(number);
                 }
             } while (!succes);
-            return -1;
+            return 0;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace SemestralniProjekt
         /// <typeparam name="T"></typeparam>
         /// <param name="number">Horní hranice do které se mají zjistit prvočisla</param>
         /// <param name="Function">Funkce ve formě generátoru pro zjištění prvočísel do horní hranice</param>
-        private static void OutputPrimeNumbersToTerminal<T>(int number, Func<int, IEnumerable<int>> Function)
+        private static void OutputPrimeNumbersToTerminal<T>(uint number, Func<uint, IEnumerable<uint>> Function)
         {
             Console.WriteLine("Prvočísla do hranice {0} jsou:", number.ToString());
             // pro každé prvočíslo
@@ -117,7 +117,7 @@ namespace SemestralniProjekt
         /// <param name="fileName">Název souboru kam vypsat prvočísla, soubor se připojí k cestě složky ve které byl program spuštěn</param>
         /// <param name="number">Horní hranice do které se mají zjistit prvočisla</param>
         /// <param name="Function">Funkce ve formě generátoru pro zjištění prvočísel do horní hranice</param>
-        private static void OutputPrimeNumbersToFile<T>(string fileName, int number, Func<int, IEnumerable<int>> Function)
+        private static void OutputPrimeNumbersToFile<T>(string fileName, uint number, Func<uint, IEnumerable<uint>> Function)
         {
             // nemusíme kontrolovat zda soubor existuje, StreamWriter automaticky vytvoří soubor pokud neexistuje
             // používám using, abych se nemusel starat o zavírání souboru, using ho zavře automaticky
@@ -147,7 +147,7 @@ namespace SemestralniProjekt
         /// </param>
         /// <param name="number">Horní hranice do které se mají zjistit prvočisla</param>
         /// <param name="Function">Funkce ve formě generátoru pro zjištění prvočísel do horní hranice</param>
-        public static void OutputPrimeNumbers<T>(bool outputType, int number, Func<int, IEnumerable<int>> Function)
+        public static void OutputPrimeNumbers<T>(bool outputType, uint number, Func<uint, IEnumerable<uint>> Function)
         {
             // wrapper funkce pro výpis prvočísel
 

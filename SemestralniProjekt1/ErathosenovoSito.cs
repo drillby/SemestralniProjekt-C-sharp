@@ -6,7 +6,7 @@ namespace SemestralniProjekt
     internal class ErathosenovoSito
     {
         // Erathosenovo síto hledá prvočísla do zadané horní hranice
-        public static IEnumerable<int> ESito(int max)
+        public static IEnumerable<uint> ESito(uint max)
         {
             // neexistuje nižší prvočíslo než 2
             if (max < 2)
@@ -21,18 +21,18 @@ namespace SemestralniProjekt
             for (int i = 0; i < max; i++)
                 sito[i] = true;
 
-            for (int p = 2; p * p <= max; p++)
+            for (uint p = 2; p * p <= max; p++)
             {
                 // pokud nedošlo ke změně, pak sito[p] je prvočíslo
                 if (sito[p])
                 {
                     // násobky p změnit na false
-                    for (int i = p * p; i <= max; i += p)
+                    for (uint i = p * p; i <= max; i += p)
                         sito[i] = false;
                 }
             }
 
-            for (int i = 2; i <= max; i++)
+            for (uint i = 2; i <= max; i++)
             {
                 if (sito[i])
                     // Generátor z důvodu paměťové nenáročnosti, nevíme jak velkou hranici uživatel zadá
