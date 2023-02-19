@@ -18,8 +18,7 @@ namespace SemestralniProjekt
 
             IOHandler.OutputPrimeNumbers<uint>(outputType, number, ErathosenovoSito.ESito);
         }
-
-        /// <summary>s
+        /// <summary>
         /// Spustí část programu pro zpracování čísel ze souboru
         /// </summary>
         /// <param name="input_numbers">Název souboru ze které ho se čísla budou číst. Název souboru se připojí k cestě adresáře ve kterém je program spuštěm</param>

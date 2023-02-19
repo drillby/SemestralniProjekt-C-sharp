@@ -5,7 +5,12 @@ namespace SemestralniProjekt
 {
     internal class ErathosenovoSito
     {
-        // Erathosenovo síto hledá prvočísla do zadané horní hranice
+        /// <summary>
+        /// Erathosenovo síto hledá prvočísla do zadané horní hranice 
+        /// </summary>
+        /// <param name="max">Horní hranice</param>
+        /// <returns>Prvočísla</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Pokud <param>max</param>param> < 2</exception>
         public static IEnumerable<uint> ESito(uint max)
         {
             // neexistuje nižší prvočíslo než 2
