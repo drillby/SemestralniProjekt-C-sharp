@@ -5,14 +5,24 @@ using System.Text.RegularExpressions;
 
 namespace SemestralniProjekt
 {
-    // IOHandler je vytvořen poměrně univerzálně
-    // Po pár úpravách textových odpovědí terminálu lze použít na jakýkoliv algoritmus, který funguje na bázi generátoru, např. Hornerovo schéma
+    /// <summary>
+    /// Wrapper class vytořená pro zastřešení IO operací
+    /// </summary>
     public class IOHandler
     {
         // funkce pro zjištění zda budeme načítat čísla z terminálu, nebo ze souboru
         // input == true -> výběr způsobu zadání čísla
         // input == false -> výběr způsobu vypsání prvočísel
-        public static int GetIOType(bool input)
+        /// <summary>
+        /// Zjistí zda uživatel chce načíst/vypsat data z/do terminálu, nebo ze/do souboru
+        /// </summary>
+        /// <param name="input">True -> funkce zjišťuje input dat, False -> funkce zjišťuje output dat</param>
+        /// <returns>
+        /// Rozhodnutí uživatele
+        /// true -> Uživatel vybral terminál
+        /// false -> uživatel vybral soubor
+        /// </returns>
+        public static bool GetIOType(bool input)
         {
             // předinicializace, abychom se vyhnuli inicializaci proměnné pokaždé když uživatel zadá chybný vstup
             string setUp;
@@ -47,9 +57,14 @@ namespace SemestralniProjekt
                 }
                 // kontrola vstupu pomocí regex, vrací true pokud setUp == 1 || setUp == 2
             } while (!Regex.IsMatch(setUp, @"[1,2]"));
-            return int.Parse(setUp);
+            return setUp == "1";
         }
-        // funkce pro přečtení čísla z konzole
+        /// <summary>
+        /// Funkce pro čtení input dat z terminálu
+        /// </summary>
+        /// <returns>
+        /// Číslo zadané uživatelem
+        /// </returns>
         public static int GetNumberFromTerminal()
         {
             bool succes;
@@ -77,8 +92,13 @@ namespace SemestralniProjekt
             return -1;
         }
 
-        // funkce pro vypsání prvočísel do terminálu
-        public static void OutputPrimeNumbersToTerminal<T>(int number, Func<int, IEnumerable<int>> Function)
+        /// <summary>
+        /// Funkce pro vypsání prvočisel do terminálu
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="number">Horní hranice do které se mají zjistit prvočisla</param>
+        /// <param name="Function">Funkce ve formě generátoru pro zjištění prvočísel do horní hranice</param>
+        private static void OutputPrimeNumbersToTerminal<T>(int number, Func<int, IEnumerable<int>> Function)
         {
             Console.WriteLine("Prvočísla do hranice {0} jsou:", number.ToString());
             // pro každé prvočíslo
@@ -90,8 +110,14 @@ namespace SemestralniProjekt
             return;
         }
 
-        // funkce pro vypisování prvočísel do souboru
-        public static void OutputPrimeNumbersToFile<T>(string fileName, int number, Func<int, IEnumerable<int>> Function)
+        /// <summary>
+        /// Funkce pro vypsání prvočísel do souboru
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fileName">Název souboru kam vypsat prvočísla, soubor se připojí k cestě složky ve které byl program spuštěn</param>
+        /// <param name="number">Horní hranice do které se mají zjistit prvočisla</param>
+        /// <param name="Function">Funkce ve formě generátoru pro zjištění prvočísel do horní hranice</param>
+        private static void OutputPrimeNumbersToFile<T>(string fileName, int number, Func<int, IEnumerable<int>> Function)
         {
             // nemusíme kontrolovat zda soubor existuje, StreamWriter automaticky vytvoří soubor pokud neexistuje
             // používám using, abych se nemusel starat o zavírání souboru, using ho zavře automaticky
@@ -108,10 +134,20 @@ namespace SemestralniProjekt
                 // příklad zápisu: 10 -> 2, 3, 5, 7
                 sw.Write(Environment.NewLine);
             }
-            Console.WriteLine("Prvočísla jsou zapsaná zde: {0}{1}", Directory.GetCurrentDirectory(), fileName);
+            Console.WriteLine("Prvočísla jsou zapsaná zde: {0}", Path.Combine(Directory.GetCurrentDirectory(), fileName));
             return;
         }
-        public static void OutputPrimeNumbers<T>(int outputType, int number, Func<int, IEnumerable<int>> Function)
+        /// <summary>
+        /// Wrapper funkce pro zajištění outputu čísel
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="outputType">
+        /// true -> output do terminálu
+        /// false ->output do souboru
+        /// </param>
+        /// <param name="number">Horní hranice do které se mají zjistit prvočisla</param>
+        /// <param name="Function">Funkce ve formě generátoru pro zjištění prvočísel do horní hranice</param>
+        public static void OutputPrimeNumbers<T>(bool outputType, int number, Func<int, IEnumerable<int>> Function)
         {
             // wrapper funkce pro výpis prvočísel
 
@@ -122,7 +158,7 @@ namespace SemestralniProjekt
                 return;
             }
             // pokud outputType == 1 vypíšeme prvočísla do konzole
-            if (outputType == 1)
+            if (outputType)
             {
                 OutputPrimeNumbersToTerminal<T>(number, Function);
             }
