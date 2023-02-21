@@ -10,9 +10,6 @@ namespace SemestralniProjekt
     /// </summary>
     public class IOHandler
     {
-        // funkce pro zjištění zda budeme načítat čísla z terminálu, nebo ze souboru
-        // input == true -> výběr způsobu zadání čísla
-        // input == false -> výběr způsobu vypsání prvočísel
         /// <summary>
         /// Zjistí zda uživatel chce načíst/vypsat data z/do terminálu, nebo ze/do souboru
         /// </summary>
@@ -24,7 +21,6 @@ namespace SemestralniProjekt
         /// </returns>
         public static bool GetIOType(bool input)
         {
-            // předinicializace, abychom se vyhnuli inicializaci proměnné pokaždé když uživatel zadá chybný vstup
             string setUp;
 
             // dokud uživatel nezadá správný vstup
@@ -67,7 +63,7 @@ namespace SemestralniProjekt
         /// </returns>
         public static uint GetNumberFromTerminal()
         {
-            bool succes;
+            bool isParsable;
 
             // dokud uživatel nazadá číslo
             do
@@ -76,8 +72,8 @@ namespace SemestralniProjekt
                 string number = Console.ReadLine();
 
                 // validátor, zda uživatel zadal číslo
-                succes = int.TryParse(number, out _);
-                if (!succes)
+                isParsable = int.TryParse(number, out _);
+                if (!isParsable)
                 {
                     Console.WriteLine("Vstup se nepovedlo převést na celé číslo, zkuste to znovu...");
                     Console.WriteLine("Stiskněte Enter pro nový pokus");
@@ -88,7 +84,7 @@ namespace SemestralniProjekt
                 {
                     return uint.Parse(number);
                 }
-            } while (!succes);
+            } while (!isParsable);
             return 0;
         }
 
@@ -102,7 +98,7 @@ namespace SemestralniProjekt
         {
             Console.WriteLine("Prvočísla do hranice {0} jsou:", number.ToString());
             // pro každé prvočíslo
-            foreach (int i in Function(number))
+            foreach (uint i in Function(number))
             {
                 Console.Write(i.ToString() + ", ");
             }
@@ -119,14 +115,15 @@ namespace SemestralniProjekt
         /// <param name="Function">Funkce ve formě generátoru pro zjištění prvočísel do horní hranice</param>
         private static void OutputPrimeNumbersToFile<T>(string fileName, uint number, Func<uint, IEnumerable<uint>> Function)
         {
+            Console.WriteLine("Začínám zápis");
+
             // nemusíme kontrolovat zda soubor existuje, StreamWriter automaticky vytvoří soubor pokud neexistuje
             // používám using, abych se nemusel starat o zavírání souboru, using ho zavře automaticky
-            Console.WriteLine("Začínám zápis");
             using (StreamWriter sw = File.AppendText(Path.Combine(Directory.GetCurrentDirectory(), fileName)))
             {
                 // každá hranice se vypíše na jeden řádek
                 sw.Write("{0} -> ", number.ToString());
-                foreach (int i in Function(number))
+                foreach (uint i in Function(number))
                 {
                     // každé prvočíslo se vypíše za hranici, na ten samý řádek
                     sw.Write(i.ToString() + ", ");
@@ -149,26 +146,19 @@ namespace SemestralniProjekt
         /// <param name="Function">Funkce ve formě generátoru pro zjištění prvočísel do horní hranice</param>
         public static void OutputPrimeNumbers<T>(bool outputType, uint number, Func<uint, IEnumerable<uint>> Function)
         {
-            // wrapper funkce pro výpis prvočísel
-
             // předcházíme vyhození chyby ArgumentOutOfRangeException z Generátoru ErathosenovoSito
             if (number < 2)
             {
                 Console.WriteLine("Pro číslo {0} neexistují prvočísla", number);
                 return;
             }
-            // pokud outputType == 1 vypíšeme prvočísla do konzole
             if (outputType)
             {
                 OutputPrimeNumbersToTerminal<T>(number, Function);
             }
-
-            // v opačném případě zapíšeme do souboru
             else
             {
                 // fileName je relativní cesta z aktivního adresáře tj. adresář ze kterého byl program spuštěn
-                // -> soubor prvocisla.txt se vytvoří "vedle" tohoto programu
-                // musíme si dát pozor na spoštění tohoto programu na UNIXových platformách, adresáře se oddělují / a ne \
                 string fileName = "prvocisla.txt";
                 OutputPrimeNumbersToFile<T>(fileName, number, Function);
             }

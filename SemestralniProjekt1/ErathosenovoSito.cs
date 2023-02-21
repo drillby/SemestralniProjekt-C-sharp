@@ -10,7 +10,7 @@ namespace SemestralniProjekt
         /// </summary>
         /// <param name="max">Horní hranice</param>
         /// <returns>Prvočísla</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Pokud <param>max</param>param> < 2</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Pokud <param>max</param>max < 2</exception>
         public static IEnumerable<uint> ESito(uint max)
         {
             // neexistuje nižší prvočíslo než 2
@@ -29,20 +29,24 @@ namespace SemestralniProjekt
             for (uint p = 2; p * p <= max; p++)
             {
                 // pokud nedošlo ke změně, pak sito[p] je prvočíslo
-                if (sito[p])
+                if (!sito[p])
                 {
-                    // násobky p změnit na false
-                    for (uint i = p * p; i <= max; i += p)
-                        sito[i] = false;
+                    continue;
                 }
+                // násobky p změnit na false
+                for (uint i = p * p; i <= max; i += p)
+                    sito[i] = false;
             }
 
             for (uint i = 2; i <= max; i++)
             {
-                if (sito[i])
-                    // Generátor z důvodu paměťové nenáročnosti, nevíme jak velkou hranici uživatel zadá
-                    // i při velké hranici pro zjištění prvočísel, budeme v jednom cyklu zabírat paměť pouze velikost jednoho int
-                    yield return i;
+                if (!sito[i])
+                {
+                    continue;
+                }
+                // Generátor z důvodu paměťové nenáročnosti, nevíme jak velkou hranici uživatel zadá
+                // i při velké hranici pro zjištění prvočísel, budeme v jednom cyklu zabírat paměť pouze velikost jednoho int
+                yield return i;
             }
         }
     }
