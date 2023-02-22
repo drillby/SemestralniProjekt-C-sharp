@@ -147,7 +147,8 @@ namespace SemestralniProjekt
         public static void OutputPrimeNumbers<T>(bool outputType, uint number, Func<uint, IEnumerable<uint>> Function)
         {
             // předcházíme vyhození chyby ArgumentOutOfRangeException z Generátoru ErathosenovoSito
-            if (number < 2)
+            const uint minValue = 2;
+            if (number < minValue)
             {
                 Console.WriteLine("Pro číslo {0} neexistují prvočísla", number);
                 return;
