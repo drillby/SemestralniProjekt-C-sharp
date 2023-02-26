@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace SemestralniProjekt
 {
@@ -19,6 +20,7 @@ namespace SemestralniProjekt
 
             IOHandler.OutputPrimeNumbers<uint>(isTerminal, number, ErathosenovoSito.ESito);
         }
+
         /// <summary>
         /// Spustí část programu pro zpracování čísel ze souboru
         /// </summary>
@@ -42,14 +44,14 @@ namespace SemestralniProjekt
             foreach (string line in File.ReadLines(Path.Combine(Directory.GetCurrentDirectory(), inputNumbers)))
             {
                 // pokud string na řádku nelze přetypovat na int, překočíme iteraci
-                bool isParsable = int.TryParse(line, out _);
+                bool isParsable = uint.TryParse(line, out _);
                 if (!isParsable)
                 {
                     Console.WriteLine("Text {0} nelze předělat na celé číslo...", line);
                     continue;
                 }
                 Console.WriteLine("Nalezeno číslo " + line);
-                IOHandler.OutputPrimeNumbers<int>(isTerminal, uint.Parse(line), ErathosenovoSito.ESito);
+                IOHandler.OutputPrimeNumbers<uint>(isTerminal, uint.Parse(line), ErathosenovoSito.ESito);
             }
         }
 
@@ -65,10 +67,10 @@ namespace SemestralniProjekt
             // vybrání možnosti opakování chodu programu
             Console.WriteLine("Chcete program ukončit, nebo spustit znovu?");
             Console.WriteLine("'pokracovat' pro pokračování");
-            Console.WriteLine("Vše ostatní pro pokračování");
+            Console.WriteLine("Vše ostatní pro konec programu");
             string opakovat = Console.ReadLine();
             // jednoduché porovnání hodnoty stringu, spíš by se sem hodil regex aby input nebyl case sensitive
-            return opakovat == "pokracovat";
+            return Regex.IsMatch(opakovat, "^((?i)pokračovat|(?i)pokracovat)$");
         }
 
         /// <summary>

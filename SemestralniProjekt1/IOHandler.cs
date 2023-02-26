@@ -43,7 +43,7 @@ namespace SemestralniProjekt
                 }
 
                 // pokud uživatelký vstup neodpovídá podmínce vypíše se chybová hláška
-                if (!Regex.IsMatch(setUp, @"[1,2]"))
+                if (!Regex.IsMatch(setUp, @"^(1|2)$"))
                 {
                     Console.WriteLine("Španý vstup, zkuste to znovu...");
                     Console.WriteLine("Stiskněte Enter pro pokračování");
@@ -52,9 +52,10 @@ namespace SemestralniProjekt
 
                 }
                 // kontrola vstupu pomocí regex, vrací true pokud setUp == 1 || setUp == 2
-            } while (!Regex.IsMatch(setUp, @"[1,2]"));
+            } while (!Regex.IsMatch(setUp, "^(1|2)$"));
             return setUp == "1";
         }
+
         /// <summary>
         /// Funkce pro čtení input dat z terminálu
         /// </summary>
@@ -72,7 +73,7 @@ namespace SemestralniProjekt
                 string number = Console.ReadLine();
 
                 // validátor, zda uživatel zadal číslo
-                isParsable = int.TryParse(number, out _);
+                isParsable = uint.TryParse(number, out _);
                 if (!isParsable)
                 {
                     Console.WriteLine("Vstup se nepovedlo převést na celé číslo, zkuste to znovu...");
@@ -134,6 +135,7 @@ namespace SemestralniProjekt
             Console.WriteLine("Prvočísla jsou zapsaná zde: {0}", Path.Combine(Directory.GetCurrentDirectory(), fileName));
             return;
         }
+
         /// <summary>
         /// Wrapper funkce pro zajištění outputu čísel
         /// </summary>

@@ -49,23 +49,5 @@ namespace SemestralniProjekt
                 yield return i;
             }
         }
-        public static IEnumerable<uint> FibI(uint n) {
-            if (n < 0)
-            {
-                throw new ArgumentOutOfRangeException("Číslo musí být větší než 0");
-            }
-            uint a = 0, b = 1, c = 0;
-
-            yield return a;
-            yield return b;
-
-            for (int i = 2; i < len; i++)  
-            {  
-                c = a + b;  
-                a = b;  
-                b = c;
-                yield return c;
-            } 
-        }
     }
 }
